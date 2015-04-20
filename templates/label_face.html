@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+{% if filename %}
+<div class="row">
+    <div class="small-6 columns">
+        <img id="labeled_image" src="{{ url_for('static', filename='images/') }}{{filename}}"\>
+    </div>
+</div>
+<div class="row">
+    <div class="small-12 columns">
+        <form action="{{request.path}}" method=post class="hidden_form">
+            <input name=ul_x id="x" type=text>
+            <input name=ul_y id="y" type=text>
+            <input name=lr_x id="x2" type=text>
+            <input name=lr_y id="y2" type=text>
+            <input readonly name=filename type=text value={{filename}}>
+            <input type=submit value=Save class="button large expand">
+        </form>
+    </div>
+</div>
+{% else %}
+No unlabeled images
+{% endif %}
+{% endblock %}

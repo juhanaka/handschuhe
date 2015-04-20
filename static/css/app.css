@@ -1,0 +1,8 @@
+.hidden_form > input:not([type="submit"]){
+    display: none;
+}
+.hidden_form {
+    margin-top: 40px;
+}
+
+

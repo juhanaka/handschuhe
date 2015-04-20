@@ -7,19 +7,36 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/jquery.Jcrop.css') }}">
     <title>Brain4Cars - Label</title>
 </head>
 
 <body>
 <div class="row">
-    <div class="icon-bar two-up">
-        <a class="item" href="{{ url_for('index') }}">
-            <label>Home</label>
+    <div class="icon-bar five-up">
+        <a class="item" href="{{ url_for('list_images') }}">
+            <label>List</label>
+        </a>
+        <a class="item" href="{{ url_for('label_face') }}">
+            <label>Faces</label>
+        </a>
+        <a class="item" href="{{ url_for('label_eyes') }}">
+            <label>Eyes</label>
+        </a>
+        <a class="item" href="{{ url_for('label_mouth') }}">
+            <label>Mouth</label>
+        </a>
+        <a class="item" href="{{ url_for('label_nose') }}">
+            <label>Nose</label>
         </a>
     </div>
     <br><br>
     {% block body %}{% endblock %}
 </div>
+<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="{{ url_for('static', filename='js/vendor/jquery.Jcrop.js')}}"></script>
+<script src="{{ url_for('static', filename='js/vendor/jquery.color.js')}}"></script>
+<script src="{{ url_for('static', filename='js/draw_rects.js')}}"></script>
 </body>
 
 </html>
