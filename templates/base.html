@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en" >
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/app.css') }}">
+    <title>Brain4Cars - Label</title>
+</head>
+
+<body>
+<div class="row">
+    <div class="icon-bar two-up">
+        <a class="item" href="{{ url_for('index') }}">
+            <label>Home</label>
+        </a>
+    </div>
+    <br><br>
+    {% block body %}{% endblock %}
+</div>
+</body>
+
+</html>
