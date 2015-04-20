@@ -10,6 +10,6 @@
 ```python initialize_app.py```
 
 4. Run app:
-```python labeling_app.py``
+```python labeling_app.py```
 Now app is running in localhost port 5000
 
