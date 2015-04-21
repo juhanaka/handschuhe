@@ -9,7 +9,7 @@ from flask.views import MethodView, View
 #-----------------------------------------
 app = Flask(__name__)
 app.config.update(dict(
-    DATABASE='/tmp/labeling_app.db',
+    DATABASE='labeling_app.db',
     DEBUG=True,
     SECRET_KEY='development key',
     USERNAME='admin',
