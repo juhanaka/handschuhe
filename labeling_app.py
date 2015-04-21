@@ -4,17 +4,12 @@ from functools import wraps
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, Response
 from flask.views import MethodView, View
+from app_config import APP_CONFIG
 
 # Configuration etc.
 #-----------------------------------------
 app = Flask(__name__)
-app.config.update(dict(
-    DATABASE='labeling_app.db',
-    DEBUG=True,
-    SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default'
-))
+app.config.update(APP_CONFIG)
 
 def check_auth(username, password):
     return username == 'admin' and password == 'default'
