@@ -34,7 +34,10 @@ def requires_auth(f):
     return decorated
 
 def connect_db():
-    return sqlite3.connect(app.config['DATABASE'])
+    conn = sqlite3.connect(app.config['DATABASE'])
+    conn.row_factory = sqlite3.Row
+    return conn
+
 
 def init_db():
     with closing(connect_db()) as db:
@@ -63,17 +66,20 @@ class LabelItemView(MethodView):
 
     def get_object(self, img_id=None):
         if img_id is None:
-            qstring = 'select {0}, filename from images where {0} is null limit 1'.format(self.variable)
+            qstring = 'select * from images where {0} is null limit 1'.format(self.variable)
         else:
-            qstring = 'select {0}, filename from images where id = {1}'.format(self.variable, img_id)
+            qstring = 'select * from images where id = {0}'.format(img_id)
         cur = g.db.execute(qstring)
-        q_result = cur.fetchall()
-        return q_result[0] if len(q_result) else None
+        return cur.fetchone()
 
     def save_coordinates(self, coordinates, filename):
         qstring = 'update images set {0}=? where filename=?'.format(self.variable)
         g.db.execute(qstring, (','.join(coordinates), filename,))
         g.db.commit()
+
+    def get_min_and_max_id(self):
+        cur = g.db.execute('select min(id), max(id) from images')
+        return cur.fetchone()
 
     def get_coordinates(self, form):
         raise NotImplementedError()
@@ -81,10 +87,21 @@ class LabelItemView(MethodView):
     @requires_auth
     def get(self, img_id=None):
         obj = self.get_object(img_id)
-        filename = obj[1] if obj is not None else None
-        coordinates = map(int, obj[0].split(',')) if obj is not None and obj[0] is not None else None
+        filename = obj['filename'] if obj is not None else None
+        coordinates = None
+        prev = None
+        next_ = None
+        if obj is not None and obj[self.variable] is not None:
+            coordinate_str = obj[self.variable].split(',')
+            coordinates = map(int, coordinate_str)
+        if obj is not None:
+            img_id = obj['id']
+            min_id, max_id = self.get_min_and_max_id()
+            prev = img_id - 1 if img_id - 1 >= min_id else None
+            next_ = img_id + 1 if img_id + 1 <= max_id else None
         return render_template(self.template, filename=filename,
-                               coordinates=coordinates)
+                               coordinates=coordinates, prev=prev,
+                               next=next_)
 
     @requires_auth
     def post(self, img_id=None):

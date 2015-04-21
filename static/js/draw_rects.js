@@ -39,6 +39,14 @@ $(function() {
     $(window).keyup(function(ev) {
         if (ev.which == 13) {
             $('.hidden_form').submit();
+        } else if (ev.which == 37) {
+            if ($('#prev').length) {
+                $('#prev')[0].click();
+            }
+        } else if (ev.which == 39) {
+            if ($('#next').length) {
+                $('#next')[0].click();
+            }
         }
     });
     $('.hidden_form').submit(function(ev) {

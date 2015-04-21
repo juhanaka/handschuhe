@@ -33,6 +33,20 @@
     <br><br>
     {% block body %}{% endblock %}
 </div>
+<div class="row">
+    <ul class="button-group">
+    {%if prev%}
+        <li>
+            <a id="prev" class="button" href="{{ url_for(request.url_rule.endpoint, img_id=prev) }}">Previous</a>
+        </li>
+    {% endif %}
+    {% if next %}
+        <li>
+            <a id="next" class="button" href="{{ url_for(request.url_rule.endpoint, img_id=next) }}">Next</a>
+        </li>
+    {% endif %}
+    </ul>
+</div>
 {% if coordinates %}
     <div id="coordinates" style="display:none;">{{coordinates}}</div>
 {% endif %}
