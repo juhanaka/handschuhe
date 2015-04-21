@@ -36,4 +36,22 @@ $(function() {
         $('#r_x2').val(c.x2);
         $('#r_y2').val(c.y2);
     }
+    $(window).keyup(function(ev) {
+        if (ev.which == 13) {
+            $('.hidden_form').submit();
+        }
+    });
+    $('.hidden_form').submit(function(ev) {
+        var formData = $('.hidden_form').serializeArray();
+        var isEmpty = false;
+        formData.forEach(function(el) {
+            if (el.value == '') {
+                isEmpty = true;
+            }
+        });
+        if (isEmpty == true) {
+            alert('You must select the bounding boxes!');
+            ev.preventDefault();
+        }
+    })
 });
