@@ -61,14 +61,14 @@ def index():
 #-----------------------------------------
 class LabelItemView(MethodView):
 
-    def get_filename(self, img_id=None):
+    def get_object(self, img_id=None):
         if img_id is None:
-            qstring = 'select filename from images where {0} is null limit 1'.format(self.variable)
+            qstring = 'select {0}, filename from images where {0} is null limit 1'.format(self.variable)
         else:
-            qstring = 'select filename from images where id = {0}'.format(img_id)
+            qstring = 'select {0}, filename from images where id = {1}'.format(self.variable, img_id)
         cur = g.db.execute(qstring)
         q_result = cur.fetchall()
-        return q_result[0][0] if len(q_result) else None
+        return q_result[0] if len(q_result) else None
 
     def save_coordinates(self, coordinates, filename):
         qstring = 'update images set {0}=? where filename=?'.format(self.variable)
@@ -80,8 +80,11 @@ class LabelItemView(MethodView):
 
     @requires_auth
     def get(self, img_id=None):
-        filename = self.get_filename(img_id)
-        return render_template(self.template, filename=filename)
+        obj = self.get_object(img_id)
+        filename = obj[1] if obj is not None else None
+        coordinates = map(int, obj[0].split(',')) if obj is not None and obj[0] is not None else None
+        return render_template(self.template, filename=filename,
+                               coordinates=coordinates)
 
     @requires_auth
     def post(self, img_id=None):

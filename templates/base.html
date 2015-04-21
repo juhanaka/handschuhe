@@ -33,6 +33,9 @@
     <br><br>
     {% block body %}{% endblock %}
 </div>
+{% if coordinates %}
+    <div id="coordinates" style="display:none;">{{coordinates}}</div>
+{% endif %}
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.Jcrop.js')}}"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.color.js')}}"></script>
