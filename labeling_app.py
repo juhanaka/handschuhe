@@ -69,7 +69,7 @@ class LabelItemView(MethodView):
 
     def save_coordinates(self, coordinates, filename):
         qstring = 'update images set {0}=? where filename=?'.format(self.variable)
-        g.db.execute(qstring, (','.join(coordinates), filename,))
+        g.db.execute(qstring, (','.join(map(str, coordinates)), filename,))
         g.db.commit()
 
     def get_min_and_max_id(self):
@@ -83,6 +83,7 @@ class LabelItemView(MethodView):
     def get(self, img_id=None):
         obj = self.get_object(img_id)
         filename = obj['filename'] if obj is not None else None
+        img_size = None
         coordinates = None
         prev = None
         next_ = None
@@ -91,10 +92,12 @@ class LabelItemView(MethodView):
             coordinates = map(int, coordinate_str)
         if obj is not None:
             img_id = obj['id']
+            img_size = map(int, obj['size'].split(','))
             min_id, max_id = self.get_min_and_max_id()
             prev = img_id - 1 if img_id - 1 >= min_id else None
             next_ = img_id + 1 if img_id + 1 <= max_id else None
         return render_template(self.template, filename=filename,
+                               img_size=img_size,
                                coordinates=coordinates, prev=prev,
                                next=next_)
 
@@ -102,6 +105,7 @@ class LabelItemView(MethodView):
     def post(self, img_id=None):
         filename = request.form['filename']
         coordinates = self.get_coordinates(request.form)
+        coordinates = map(int, map(float, coordinates))
         self.save_coordinates(coordinates, filename)
         return self.get()
 
@@ -146,11 +150,11 @@ class ListImagesView(View):
     def dispatch_request(self):
         cur = g.db.execute('select * from images')
         q_result = cur.fetchall()
-        items = [{'id': x[0], 'filename': x[1],
-                   'face_coordinates': x[2],
-                   'eye_coordinates': x[3],
-                   'mouth_coordinates': x[4],
-                   'nose_coordinates': x[5]} for x in q_result]
+        items = [{'id': x['id'], 'filename': x['filename'],
+                   'face_coordinates': x['face_coordinates'],
+                   'eye_coordinates': x['eye_coordinates'],
+                   'mouth_coordinates': x['mouth_coordinates'],
+                   'nose_coordinates': x['nose_coordinates']} for x in q_result]
         return render_template('list.html', items=items)
 
 

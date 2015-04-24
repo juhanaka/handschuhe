@@ -2,9 +2,7 @@
 {% block body %}
 {% if filename %}
 <div class="row">
-    <div class="small-6 columns">
-        <img id="labeled_image" src="{{ url_for('static', filename='images/') }}{{filename}}"\>
-    </div>
+    <img id="labeled_image" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
 </div>
 <div class="row">
     <div class="small-12 columns">

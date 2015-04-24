@@ -13,12 +13,18 @@ for (k, d) in dirs.items():
     if not os.path.exists(d):
         os.makedirs(d)
 
-db = sqlite3.connect('labeling_app.db')
+db = connect_db()
 cur = db.cursor()
 rows = cur.execute('select * from images').fetchall()
 
 for row in rows:
-    id_, fname, f_coord, e_coord, m_coord, n_coord = row
+    id_ = row['id']
+    fname = row['filename']
+    f_coord = row['face_coordinates']
+    e_coord = row['eye_coordinates']
+    m_coord = row['mouth_coordinates']
+    n_coord = row['nose_coordinates']
+
     img = Image.open(os.path.join(IMAGE_DIR,fname))
     face = img.crop(map(int,f_coord.split(',')))
     eye_coordinates = map(int,e_coord.split(','))

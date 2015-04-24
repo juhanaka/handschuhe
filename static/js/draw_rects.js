@@ -1,9 +1,11 @@
 $(function() {
-    var coordinates_string = $('#coordinates').text()
+    var coordinates_string = $('#coordinates').text();
     var coordinates = coordinates_string != '' ? $.parseJSON(coordinates_string) : null;
-    var regular_opts = {onChange: showCoords, onSelect: showCoords};
-    var left_opts = {onChange: showLCoords, onSelect: showLCoords};
-    var right_opts = {onChange: showRCoords, onSelect: showRCoords};
+    var img_size_string = $('#img_size').text();
+    var img_size = $.parseJSON(img_size_string);
+    var regular_opts = {onChange: showCoords, onSelect: showCoords, trueSize: img_size, boxWidth: 600, boxHeight: 600};
+    var left_opts = {onChange: showLCoords, onSelect: showLCoords, trueSize: img_size,};
+    var right_opts = {onChange: showRCoords, onSelect: showRCoords, trueSize: img_size,};
 
     if (coordinates !== null) {
         regular_opts.setSelect = coordinates;

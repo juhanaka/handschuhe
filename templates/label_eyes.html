@@ -2,14 +2,8 @@
 {% block body %}
 {% if filename %}
 <div class="row">
-    <div class="small-6 columns">
-        <h3>Left eye</h3>
-        <img id="l_labeled_image" src="{{ url_for('static', filename='images/') }}{{filename}}"\>
-    </div>
-    <div class="small-6 columns">
-        <h3>Right eye</h3>
-        <img id="r_labeled_image" src="{{ url_for('static', filename='images/') }}{{filename}}"\>
-    </div>
+    <img id="l_labeled_image" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
+    <img id="r_labeled_image" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
 </div>
 <div class="row">
     <div class="small-12 columns">
