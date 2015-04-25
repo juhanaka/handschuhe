@@ -17,17 +17,8 @@
         <a class="item" href="{{ url_for('list_images') }}">
             <label>List</label>
         </a>
-        <a class="item" href="{{ url_for('label_face') }}">
-            <label>Faces</label>
-        </a>
-        <a class="item" href="{{ url_for('label_eyes') }}">
-            <label>Eyes</label>
-        </a>
-        <a class="item" href="{{ url_for('label_mouth') }}">
-            <label>Mouth</label>
-        </a>
-        <a class="item" href="{{ url_for('label_nose') }}">
-            <label>Nose</label>
+        <a class="item" href="{{ url_for('label_image') }}">
+            <label>Label</label>
         </a>
     </div>
     <br><br>
@@ -48,7 +39,7 @@
     </ul>
 </div>
 {% if coordinates %}
-    <div id="coordinates" style="display:none;">{{coordinates}}</div>
+    <div id="coordinates" style="display:none;">{{coordinates_json}}</div>
 {% endif %}
 {% if img_size %}
     <div id="img_size" style="display:none;">{{img_size}}</div>
@@ -56,6 +47,7 @@
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.Jcrop.js')}}"></script>
 <script src="{{ url_for('static', filename='js/vendor/jquery.color.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="{{ url_for('static', filename='js/draw_rects.js')}}"></script>
 </body>
 

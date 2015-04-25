@@ -3,39 +3,21 @@
     <table>
         <thead>
             <tr>
-                <th>id</th>
-                <th>filename</th>
-                <th>face coordinates</th>
-                <th>eye coordinates</th>
-                <th>mouth coordinates</th>
-                <th>nose coordinates</th>
+                {% for key in items[0].keys() %}
+                <th>{{key}}</th>
+                {% endfor %}
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
             <tr>
-                <td>{{item.id}}</td>
-                <td>{{item.filename}}</td>
-                <td>
-                    <a href="{{url_for('label_face')}}/{{item.id}}">
-                        {{item.face_coordinates}}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{url_for('label_eyes')}}/{{item.id}}">
-                        {{item.eye_coordinates}}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{url_for('label_mouth')}}/{{item.id}}">
-                        {{item.mouth_coordinates}}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{url_for('label_nose')}}/{{item.id}}">
-                        {{item.nose_coordinates}}
-                    </a>
-                </td>
+                {% for key in item.keys() %}
+                    <td>
+                        <a href="{{url_for('label_image')}}/{{item.id}}">
+                            {{item[key]}}
+                        </a>
+                    </td>
+                {% endfor %}
             </tr>
             {% endfor %}
         </tbody>
