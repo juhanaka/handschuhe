@@ -5,7 +5,7 @@ from functools import wraps
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, Response
 from flask.views import MethodView, View
-from app_config import APP_CONFIG, VARIABLE_COLUMNS
+from app_config import APP_CONFIG, VARIABLE_COLUMNS, NUMBER_OF_LANDMARK_FEATURES
 
 # Configuration etc.
 #-----------------------------------------
@@ -58,32 +58,41 @@ class LabelImageView(MethodView):
 
     def get_object(self, img_id=None):
         if img_id is None:
-            qstring = 'select * from images where face_coordinates is null limit 1'
+            qstring = 'select * from images where labeled=0'
         else:
             qstring = 'select * from images where id = {0}'.format(img_id)
         cur = g.db.execute(qstring)
         return cur.fetchone()
 
     def save_coordinates(self, coordinates, filename):
-        coordinates_floats = {key: map(float,value.split(',')) for key, value in coordinates.items()}
-        coordinates_strings = {key: ','.join(map(str, map(int, value))) for key, value in coordinates_floats.items()}
-        coordinates_joined = ['{0}={1}'.format(key, '"' + value + '"') for key, value in coordinates_strings.items()]
-        qstring = 'update images set {0}, labeled=1 where filename={1}'.format(','.join(coordinates_joined),
-                                                                    '"'+filename+'"')
-        print qstring
-        g.db.execute(qstring)
+        coordinates_joined = []
+        for key, value in coordinates.items():
+            floats = map(float, value.split(','))
+            ints = map(int, floats)
+            query_format = '"{0}"'.format(','.join(map(str, ints)))
+            coordinates_joined.append('{0}={1}'.format(key, query_format))
+        qstring = 'update images set {0}, labeled=1 where filename=?'.format(
+            ','.join(coordinates_joined)
+        )
+        g.db.execute(qstring, (filename,))
         g.db.commit()
 
-    def get_min_and_max_id(self):
+    def get_prev_and_next(self, img_id):
         cur = g.db.execute('select min(id), max(id) from images')
-        return cur.fetchone()
+        min_id, max_id = cur.fetchone()
+        prev = img_id - 1 if img_id - 1 >= min_id else None
+        next_ = img_id + 1 if img_id + 1 <= max_id else None
+        return prev, next_
 
     def get_coordinates(self, form):
         coordinates = {}
         for col in VARIABLE_COLUMNS:
             key = col[0]
-            coordinates[key] = ','.join([form[key + '_ul_x'], form[key + '_ul_y'],
-                                         form[key + '_lr_x'], form[key + '_lr_y']])
+            if key.startswith('landmark'):
+                coordinates[key] = form[key + '_xy']
+            else:
+                coordinates[key] = ','.join([form[key + '_ul_x'], form[key + '_ul_y'],
+                                             form[key + '_lr_x'], form[key + '_lr_y']])
         return coordinates
 
     @requires_auth
@@ -99,14 +108,13 @@ class LabelImageView(MethodView):
             coordinates = {col[0]: map(int, obj[col[0]].split(',')) for col in VARIABLE_COLUMNS}
         else:
             coordinates = {col[0]: None for col in VARIABLE_COLUMNS}
-        min_id, max_id = self.get_min_and_max_id()
-        prev = img_id - 1 if img_id - 1 >= min_id else None
-        next_ = img_id + 1 if img_id + 1 <= max_id else None
+        prev, next_ = self.get_prev_and_next(img_id)
         return render_template(self.template, filename=filename,
                                img_size=img_size,
                                coordinates=coordinates,
                                coordinates_json=json.dumps(coordinates),
-                               prev=prev, next=next_)
+                               prev=prev, next=next_,
+                               n_of_landmark_features=NUMBER_OF_LANDMARK_FEATURES)
 
     @requires_auth
     def post(self, img_id=None):

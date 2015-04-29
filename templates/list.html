@@ -3,21 +3,17 @@
     <table>
         <thead>
             <tr>
-                {% for key in items[0].keys() %}
-                <th>{{key}}</th>
-                {% endfor %}
+                <th>id</th>
+                <th>filename</th>
+                <th>labeled</th>
             </tr>
         </thead>
         <tbody>
             {% for item in items %}
             <tr>
-                {% for key in item.keys() %}
-                    <td>
-                        <a href="{{url_for('label_image')}}/{{item.id}}">
-                            {{item[key]}}
-                        </a>
-                    </td>
-                {% endfor %}
+                <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.id}}</a></td>
+                <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.filename}}</a></td>
+                <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.labeled}}</a></td>
             </tr>
             {% endfor %}
         </tbody>

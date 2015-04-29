@@ -15,7 +15,8 @@ def fill_db(image_dir):
         img = Image.open(join(image_dir, fname))
         sizes.append(','.join(map(str, img.size)))
     n_features = len(app_config.VARIABLE_COLUMNS)
-    query_attributes = [[None, fname, sizes[i], False] + [None for i in range(n_features)] for i, fname in enumerate(filenames)]
+    query_attributes = [[None, fname, sizes[i], False] +
+                        [None for i in range(n_features)] for i, fname in enumerate(filenames)]
     conn = connect_db()
     cur = conn.cursor()
     question_marks = ','.join(['?' for _ in query_attributes[0]])
