@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<table>
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>filename</th>
+            <th>labeled</th>
+            <th>username</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.id}}</a></td>
+            <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.filename}}</a></td>
+            <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.labeled}}</a></td>
+            <td><a href="{{url_for('label_image')}}/{{item.id}}">{{item.username}}</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

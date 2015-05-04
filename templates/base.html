@@ -14,9 +14,11 @@
 <body>
 <div class="row">
     <div class="icon-bar five-up">
-        <a class="item" href="{{ url_for('list_images') }}">
-            <label>List</label>
-        </a>
+        {% if request.authorization.username == 'admin' %}
+            <a class="item" href="{{ url_for('admin') }}">
+                <label>Admin</label>
+            </a>
+        {% endif %}
         <a class="item" href="{{ url_for('label_image') }}">
             <label>Label</label>
         </a>

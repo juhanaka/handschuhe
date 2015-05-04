@@ -1,3 +1,4 @@
+import os
 import sqlite3
 import json
 from contextlib import closing
@@ -5,16 +6,22 @@ from functools import wraps
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, Response
 from flask.views import MethodView, View
-from app_config import APP_CONFIG, VARIABLE_COLUMNS, NUMBER_OF_LANDMARK_FEATURES
+from app_config import (APP_CONFIG, VARIABLE_COLUMNS, NUMBER_OF_LANDMARK_FEATURES)
 
 # Configuration etc.
 #-----------------------------------------
 app = Flask(__name__)
 app.config.update(APP_CONFIG)
 app.debug = True
+app.config.update({'SECRET_KEY': os.urandom(24)})
 
 def check_auth(username, password):
-    return username == 'admin' and password == 'default'
+    qstring = """select * from users where username = '{0}'""".format(username)
+    cur = g.db.execute(qstring)
+    user = cur.fetchone()
+    if user is not None:
+        return password == user['password']
+    return false
 
 def authenticate():
     return Response(
@@ -48,7 +55,7 @@ def teardown_request(exception):
 @app.route('/')
 @requires_auth
 def index():
-    return redirect(url_for('list_images'))
+    return redirect(url_for('label_image'))
 
 # Views
 #-----------------------------------------
@@ -56,9 +63,12 @@ def index():
 class LabelImageView(MethodView):
     template = 'label_image.html'
 
-    def get_object(self, img_id=None):
+    def get_object(self, username, img_id=None):
         if img_id is None:
-            qstring = 'select * from images where labeled=0'
+            if username != 'admin':
+                qstring = """select * from images where labeled=0 and username='{0}'""".format(username)
+            else:
+                qstring = """select * from images where labeled=0"""
         else:
             qstring = 'select * from images where id = {0}'.format(img_id)
         cur = g.db.execute(qstring)
@@ -97,7 +107,8 @@ class LabelImageView(MethodView):
 
     @requires_auth
     def get(self, img_id=None):
-        obj = self.get_object(img_id)
+        username = request.authorization.username
+        obj = self.get_object(username, img_id)
         if obj is None:
             return render_template(self.template)
 
@@ -124,29 +135,31 @@ class LabelImageView(MethodView):
         return self.get()
 
 
-class ListImagesView(View):
+class AdminView(View):
     @requires_auth
     def dispatch_request(self):
+        if request.authorization.username != 'admin':
+            return redirect(url_for('label_image'))
         cur = g.db.execute('select * from images')
         q_result = cur.fetchall()
         items = []
         for row in q_result:
             row_dict = {key: row[key] for key in row.keys()}
             items.append(row_dict)
-        return render_template('list.html', items=items)
+        return render_template('admin.html', items=items)
 
 
 # Routing
 #-----------------------------------------
 label_image = LabelImageView.as_view('label_image')
-list_view = ListImagesView.as_view('list_images')
+admin_view = AdminView.as_view('admin')
 
 app.add_url_rule('/image',
                  view_func=label_image)
 app.add_url_rule('/image/<img_id>',
                  view_func=label_image)
-app.add_url_rule('/list',
-                 view_func=list_view)
+app.add_url_rule('/admin',
+                 view_func=admin_view)
 
 
 if __name__ == "__main__":

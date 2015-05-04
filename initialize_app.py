@@ -15,7 +15,7 @@ def fill_db(image_dir):
         img = Image.open(join(image_dir, fname))
         sizes.append(','.join(map(str, img.size)))
     n_features = len(app_config.VARIABLE_COLUMNS)
-    query_attributes = [[None, fname, sizes[i], False] +
+    query_attributes = [[None, fname, None, sizes[i], False] +
                         [None for i in range(n_features)] for i, fname in enumerate(filenames)]
     conn = connect_db()
     cur = conn.cursor()
@@ -40,7 +40,18 @@ def generate_schema():
 def init_db():
     with closing(connect_db()) as db:
         db.cursor().executescript(generate_schema())
+        with open('schema.sql') as fp:
+            db.cursor().executescript(fp.read())
         db.commit()
+
+def create_admin():
+    with open(app_config.ADMIN_PASSWORD_FILE) as fp:
+        admin_pass = fp.read().strip()
+    conn = connect_db()
+    cur = conn.cursor()
+    cur.execute("""INSERT INTO users VALUES (NULL, 'admin', '{0}')""".format(admin_pass))
+    conn.commit()
+    conn.close()
 
 
 init_db()
@@ -48,5 +59,6 @@ resize_images(app_config.IMAGE_DIR,
               app_config.RESIZE_DIR,
               app_config.IMG_MAXWIDTH)
 fill_db(app_config.IMAGE_DIR)
+create_admin()
 
 
