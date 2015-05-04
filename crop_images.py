@@ -21,15 +21,15 @@ for row in rows:
     id_ = row['id']
     fname = row['filename']
     f_coord = row['face_coordinates']
-    e_coord = row['eye_coordinates']
+    le_coord = row['left_eye_coordinates']
+    re_coord = row['right_eye_coordinates']
     m_coord = row['mouth_coordinates']
     n_coord = row['nose_coordinates']
 
     img = Image.open(os.path.join(IMAGE_DIR,fname))
     face = img.crop(map(int,f_coord.split(',')))
-    eye_coordinates = map(int,e_coord.split(','))
-    lefteye = img.crop(eye_coordinates[0:4])
-    righteye = img.crop(eye_coordinates[4:])
+    lefteye = img.crop(map(int,le_coord.split(',')))
+    righteye = img.crop(map(int,re_coord.split(',')))
     mouth = img.crop(map(int,m_coord.split(',')))
     nose = img.crop(map(int,n_coord.split(',')))
     face.save(os.path.join(dirs['faces'],fname))

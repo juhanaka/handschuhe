@@ -4,21 +4,13 @@
 .hidden_form {
     margin-top: 40px;
 }
-#l_labeled_image {
-    float: left;
-}
 
-#r_labeled_image {
-    float: right;
-}
 div[id*="landmark"] img {
     cursor: crosshair;
 }
 span.black.circle {
-    margin-left: -5px;
-    margin-top: 5px;
-    width: 10px;
-    height: 10px;
+    width: 2px;
+    height: 2px;
     background-color: #F00;
 }
 

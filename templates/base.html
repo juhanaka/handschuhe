@@ -26,6 +26,7 @@
     <br><br>
     {% block body %}{% endblock %}
 </div>
+{% if request.authorization.username == 'admin' %}
 <div class="row">
     <ul class="button-group">
     {%if prev%}
@@ -40,6 +41,7 @@
     {% endif %}
     </ul>
 </div>
+{% endif %}
 {% if coordinates %}
     <div id="coordinates" style="display:none;">{{coordinates_json}}</div>
 {% endif %}
