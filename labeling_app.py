@@ -12,7 +12,6 @@ from app_config import (APP_CONFIG, VARIABLE_COLUMNS, NUMBER_OF_LANDMARK_FEATURE
 #-----------------------------------------
 app = Flask(__name__)
 app.config.update(APP_CONFIG)
-app.debug = True
 app.config.update({'SECRET_KEY': os.urandom(24)})
 
 def check_auth(username, password):
@@ -163,5 +162,4 @@ app.add_url_rule('/admin',
 
 
 if __name__ == "__main__":
-    app.debug = True
     app.run()
