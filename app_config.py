@@ -9,7 +9,7 @@ APP_CONFIG = dict(
     PASSWORD='default'
 )
 
-IMG_MAXWIDTH= 500
+IMG_MAXWIDTH= 800
 NUMBER_OF_LANDMARK_FEATURES = 7
 
 FIXED_COLUMNS = [('id', 'integer', 'primary key'),
