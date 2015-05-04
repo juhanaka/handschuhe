@@ -20,7 +20,7 @@ def check_auth(username, password):
     user = cur.fetchone()
     if user is not None:
         return password == user['password']
-    return false
+    return False
 
 def authenticate():
     return Response(
