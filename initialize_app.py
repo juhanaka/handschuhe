@@ -5,8 +5,6 @@ from contextlib import closing
 import app_config
 from labeling_app import connect_db
 
-from labeling_app import connect_db
-
 
 def fill_db(image_dir):
     filenames = [ fname for fname in listdir(image_dir) if isfile(join(image_dir, fname))]
