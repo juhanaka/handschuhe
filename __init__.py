@@ -161,5 +161,4 @@ app.add_url_rule('/admin',
                  view_func=admin_view)
 
 
-if __name__ == "__main__":
-    app.run()
+
