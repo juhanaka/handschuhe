@@ -8,9 +8,11 @@
 div[id*="landmark"] img {
     cursor: crosshair;
 }
-span.black.circle {
-    width: 2px;
-    height: 2px;
+div.red.dot {
+    padding-left: -2px;
+    padding-top: -2px;
+    width: 4px;
+    height: 4px;
     background-color: #F00;
 }
 

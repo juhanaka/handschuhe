@@ -6,7 +6,7 @@ $(function() {
     var nLandmarkFeaturesStr = $('#n_landmark').text();
     var nLandmarkFeatures = nLandmarkFeaturesStr != '' ? $.parseJSON(nLandmarkFeaturesStr) : null;
 
-    var general_opts = {trueSize: img_size, keySupport:false};
+    var general_opts = {trueSize: img_size, keySupport:false, bgColor: 'white', bgOpacity: 0.3};
 
     _.each(_.keys(coordinates), function(coord) {
         if (coord.startsWith('landmark')) {
@@ -37,12 +37,12 @@ $(function() {
     });
 
     function createBlackBox(coordinate) {
-        return $(document.createElement('span')).addClass('black circle note');
+        return $(document.createElement('div')).addClass('red dot note');
     }
 
     function createAnnotationCallback(coordinate) {
         return function() {
-            var serializedPositions = $('#' +coordinate + ' span.note').seralizeAnnotations();
+            var serializedPositions = $('#' +coordinate + ' div.note').seralizeAnnotations();
             var formattedPositions = _.map(serializedPositions, function(obj) {
                 console.log(obj)
                 return (2*obj.x * img_size[0]).toString() + ','+ (obj.y *img_size[1]).toString();
@@ -53,7 +53,7 @@ $(function() {
     function createClearAnnotationCallback(coordinate) {
         return function() {
             $('#'+coordinate+'_xy').val('');
-            $('#'+coordinate+' span.note').remove();
+            $('#'+coordinate+' div.note').remove();
         }
     }
 

@@ -18,11 +18,11 @@ FIXED_COLUMNS = [('id', 'integer', 'primary key'),
                  ('size', 'text'),
                  ('labeled', 'integer')]
 
-VARIABLE_COLUMNS = [('face_coordinates', 'text'),
-           ('left_eye_coordinates', 'text'),
-           ('right_eye_coordinates', 'text'),
-           ('mouth_coordinates', 'text'),
-           ('nose_coordinates', 'text'),
+VARIABLE_COLUMNS = [('face_bounding_box', 'text'),
+           ('left_eye_bounding_box', 'text'),
+           ('right_eye_bounding_box', 'text'),
+           ('mouth_bounding_box', 'text'),
+           ('nose_bounding_box', 'text'),
            ('landmark_features', 'text')]
 
 SCHEMA_SKELETON = """drop table if exists images;

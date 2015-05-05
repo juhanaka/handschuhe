@@ -20,11 +20,11 @@ rows = cur.execute('select * from images').fetchall()
 for row in rows:
     id_ = row['id']
     fname = row['filename']
-    f_coord = row['face_coordinates']
-    le_coord = row['left_eye_coordinates']
-    re_coord = row['right_eye_coordinates']
-    m_coord = row['mouth_coordinates']
-    n_coord = row['nose_coordinates']
+    f_coord = row['face_bounding_box']
+    le_coord = row['left_eye_bounding_box']
+    re_coord = row['right_eye_bounding_box']
+    m_coord = row['mouth_bounding_box']
+    n_coord = row['nose_bounding_box']
 
     img = Image.open(os.path.join(IMAGE_DIR,fname))
     face = img.crop(map(int,f_coord.split(',')))
