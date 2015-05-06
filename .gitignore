@@ -1,4 +1,6 @@
 results/
+static/images/
+static/resized_images/
 *.db
 
 # Byte-compiled / optimized / DLL files
