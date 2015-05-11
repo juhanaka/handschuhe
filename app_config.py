@@ -9,7 +9,7 @@ APP_CONFIG = dict(
     PASSWORD='default'
 )
 
-IMG_MAXWIDTH= 800
+IMG_MAXWIDTH= 1200
 NUMBER_OF_LANDMARK_FEATURES = 7
 
 FIXED_COLUMNS = [('id', 'integer', 'primary key'),
@@ -24,6 +24,14 @@ VARIABLE_COLUMNS = [('face_bounding_box', 'text'),
            ('mouth_bounding_box', 'text'),
            ('nose_bounding_box', 'text'),
            ('landmark_features', 'text')]
+
+MULTIPLE_CHOICE_COLUMNS = [('orientation', 'text')]
+
+MULTIPLE_CHOICE_CHOICES = {'orientation': ['straight',
+                                           'left_mirror',
+                                           'right_mirror',
+                                           'left_lane',
+                                           'right_lane']}
 
 SCHEMA_SKELETON = """drop table if exists images;
                      create table images (

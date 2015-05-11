@@ -12,7 +12,7 @@ def fill_db(image_dir):
     for fname in filenames:
         img = Image.open(join(image_dir, fname))
         sizes.append(','.join(map(str, img.size)))
-    n_features = len(app_config.VARIABLE_COLUMNS)
+    n_features = len(app_config.VARIABLE_COLUMNS) + len(app_config.MULTIPLE_CHOICE_COLUMNS)
     query_attributes = [[None, fname, None, sizes[i], False] +
                         [None for i in range(n_features)] for i, fname in enumerate(filenames)]
     conn = connect_db()
@@ -32,7 +32,8 @@ def resize_images(img_dir, resized_dir, maxwidth):
         resized_img.save(join(resized_dir, fname))
 
 def generate_schema():
-    columns_sql = [' '.join(column) for column in app_config.FIXED_COLUMNS + app_config.VARIABLE_COLUMNS]
+    columns = app_config.FIXED_COLUMNS + app_config.VARIABLE_COLUMNS + app_config.MULTIPLE_CHOICE_COLUMNS
+    columns_sql = [' '.join(column) for column in columns]
     return app_config.SCHEMA_SKELETON.format(',\n'.join(columns_sql))
 
 def init_db():

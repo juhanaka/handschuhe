@@ -4,13 +4,13 @@
 
 {% for coordinate in coordinates.keys() %}
     {% if coordinate.startswith('landmark') %}
-        <h2>{{coordinate}}</h2>
+        <h2>{{coordinate|replace("_", " ")}}</h2>
         <div id="{{coordinate}}" style="position: relative;">
             <img class="labeled_image" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
         </div>
         <button class="button" id="{{coordinate}}-clear">Clear</button>
     {% else %}
-    <h2>{{coordinate}}</h2>
+    <h2>{{coordinate|replace("_", " ")}}</h2>
     <img class="labeled_image" id="{{coordinate}}" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
     {% endif %}
     <br>
@@ -29,6 +29,14 @@
                     <input name="{{coordinate}}_lr_y" id="{{coordinate}}_lr_y" type="text">
                 {% endif %}
             {% endfor %}
+            {% for mc in multiple_choices.keys() %}
+                <h2>{{mc}}</h2>
+                {% for choice in multiple_choices[mc] %}
+                    <input type="radio" name="{{mc}}" value="{{choice}}" id="{{mc}}-{{choice}}">
+                    <label for="{{mc}}-{{choice}}">{{choice}}</label>
+                {% endfor %}
+            {% endfor %}
+            <br><br><br>
             <input readonly name="filename" type="text" value="{{filename}}">
             <input type="submit" value="Save" class="button large expand">
         </form>

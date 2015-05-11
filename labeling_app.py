@@ -1,12 +1,16 @@
 import os
 import sqlite3
 import json
+from collections import OrderedDict
 from contextlib import closing
 from functools import wraps
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash, Response
 from flask.views import MethodView, View
-from app_config import (APP_CONFIG, VARIABLE_COLUMNS, NUMBER_OF_LANDMARK_FEATURES)
+from app_config import (APP_CONFIG, VARIABLE_COLUMNS,
+                        NUMBER_OF_LANDMARK_FEATURES,
+                        MULTIPLE_CHOICE_COLUMNS,
+                        MULTIPLE_CHOICE_CHOICES)
 
 # Configuration etc.
 #-----------------------------------------
@@ -86,6 +90,17 @@ class LabelImageView(MethodView):
         g.db.execute(qstring, (filename,))
         g.db.commit()
 
+    def save_multiple_choices(self, multiple_choices, filename):
+        mc_joined = []
+        for key, value in multiple_choices.items():
+            query_format = '"{0}"'.format(value)
+            mc_joined.append('{0}={1}'.format(key, query_format))
+        qstring = 'update images set {0}, labeled=1 where filename=?'.format(
+            ','.join(mc_joined)
+        )
+        g.db.execute(qstring, (filename,))
+        g.db.commit()
+
     def get_prev_and_next(self, img_id):
         cur = g.db.execute('select min(id), max(id) from images')
         min_id, max_id = cur.fetchone()
@@ -104,6 +119,9 @@ class LabelImageView(MethodView):
                                              form[key + '_lr_x'], form[key + '_lr_y']])
         return coordinates
 
+    def get_multiple_choice(self, form):
+        return {col[0]: form[col[0]] for col in MULTIPLE_CHOICE_COLUMNS}
+
     @requires_auth
     def get(self, img_id=None):
         username = request.authorization.username
@@ -115,22 +133,25 @@ class LabelImageView(MethodView):
         img_id = obj['id']
         img_size = map(int, obj['size'].split(','))
         if obj['labeled']:
-            coordinates = {col[0]: map(int, obj[col[0]].split(',')) for col in VARIABLE_COLUMNS}
+            coordinates = OrderedDict([(col[0], map(int, obj[col[0]].split(','))) for col in VARIABLE_COLUMNS])
         else:
-            coordinates = {col[0]: None for col in VARIABLE_COLUMNS}
+            coordinates = OrderedDict([(col[0], None) for col in VARIABLE_COLUMNS])
         prev, next_ = self.get_prev_and_next(img_id)
         return render_template(self.template, filename=filename,
                                img_size=img_size,
                                coordinates=coordinates,
                                coordinates_json=json.dumps(coordinates),
                                prev=prev, next=next_,
-                               n_of_landmark_features=NUMBER_OF_LANDMARK_FEATURES)
+                               n_of_landmark_features=NUMBER_OF_LANDMARK_FEATURES,
+                               multiple_choices=MULTIPLE_CHOICE_CHOICES)
 
     @requires_auth
     def post(self, img_id=None):
         filename = request.form['filename']
         coordinates = self.get_coordinates(request.form)
+        multiple_choices = self.get_multiple_choice(request.form)
         self.save_coordinates(coordinates, filename)
+        self.save_multiple_choices(multiple_choices, filename)
         return self.get()
 
 
