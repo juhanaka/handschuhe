@@ -10,7 +10,7 @@ APP_CONFIG = dict(
 )
 
 IMG_MAXWIDTH= 1200
-NUMBER_OF_LANDMARK_FEATURES = 7
+NUMBER_OF_LANDMARK_FEATURES = 27
 
 FIXED_COLUMNS = [('id', 'integer', 'primary key'),
                  ('filename', 'text', 'unique', 'not null'),
