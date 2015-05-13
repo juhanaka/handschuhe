@@ -37,12 +37,12 @@ $(function() {
     });
 
     function createBlackBox(coordinate) {
-        return $(document.createElement('div')).addClass('red dot note');
+        return $(document.createElement('span')).addClass('red dot note');
     }
 
     function createAnnotationCallback(coordinate) {
         return function() {
-            var serializedPositions = $('#' +coordinate + ' div.note').seralizeAnnotations();
+            var serializedPositions = $('#' +coordinate + ' span.note').seralizeAnnotations();
             var formattedPositions = _.map(serializedPositions, function(obj) {
                 console.log(obj)
                 return (2*obj.x * img_size[0]).toString() + ','+ (obj.y *img_size[1]).toString();
@@ -53,7 +53,7 @@ $(function() {
     function createClearAnnotationCallback(coordinate) {
         return function() {
             $('#'+coordinate+'_xy').val('');
-            $('#'+coordinate+' div.note').remove();
+            $('#'+coordinate+' span.note').remove();
         }
     }
 

@@ -23,6 +23,7 @@ VARIABLE_COLUMNS = [('face_bounding_box', 'text'),
            ('right_eye_bounding_box', 'text'),
            ('mouth_bounding_box', 'text'),
            ('nose_bounding_box', 'text'),
+           ('all_faces_bounding_box', 'text'),
            ('landmark_features', 'text')]
 
 MULTIPLE_CHOICE_COLUMNS = [('orientation', 'text')]

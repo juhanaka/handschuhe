@@ -168,11 +168,17 @@ class AdminView(View):
             items.append(row_dict)
         return render_template('admin.html', items=items)
 
+class InstructionView(View):
+    @requires_auth
+    def dispatch_request(self):
+        return render_template('instructions.html')
+
 
 # Routing
 #-----------------------------------------
 label_image = LabelImageView.as_view('label_image')
 admin_view = AdminView.as_view('admin')
+instruction_view = InstructionView.as_view('instructions')
 
 app.add_url_rule('/image',
                  view_func=label_image)
@@ -180,7 +186,8 @@ app.add_url_rule('/image/<img_id>',
                  view_func=label_image)
 app.add_url_rule('/admin',
                  view_func=admin_view)
-
+app.add_url_rule('/instructions',
+                 view_func=instruction_view)
 
 if __name__ == "__main__":
      app.run()

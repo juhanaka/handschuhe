@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+    <h2>face bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/face.png') }}"\>
+</div>
+<div class="row">
+    <h2>left eye bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/leye.png') }}"\>
+</div>
+<div class="row">
+    <h2>right eye bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/reye.png') }}"\>
+</div>
+<div class="row">
+    <h2>mouth bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/mouth.png') }}"\>
+</div>
+<div class="row">
+    <h2>nose bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/nose.png') }}"\>
+</div>
+<div class="row">
+    <h2>landmark features</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/landmark.png') }}"\>
+</div>
+<div class="row">
+    <h2>all faces bounding box</h2>
+    <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/allfaces.png') }}"\>
+</div>
+{% endblock %}
