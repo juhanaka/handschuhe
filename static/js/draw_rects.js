@@ -19,10 +19,11 @@ $(function() {
             var coordinateArray = coordinates[coord];
             var coordinatesInFormat = [];
             for (var i=0; i < coordinateArray.length; i += 2) {
-                coordinatesInFormat.push({x: coordinateArray[i]/(2*img_size[0]),
+                coordinatesInFormat.push({x: coordinateArray[i]/(img_size[0]),
                                           y: coordinateArray[i+1]/img_size[1]});
             }
             if (coordinatesInFormat.length) {
+                console.log(coordinatesInFormat);
                 $('#'+coord).addAnnotations(createBlackBox, coordinatesInFormat);
             }
             return;
@@ -44,8 +45,7 @@ $(function() {
         return function() {
             var serializedPositions = $('#' +coordinate + ' span.note').seralizeAnnotations();
             var formattedPositions = _.map(serializedPositions, function(obj) {
-                console.log(obj)
-                return (2*obj.x * img_size[0]).toString() + ','+ (obj.y *img_size[1]).toString();
+                return (obj.x * img_size[0]).toString() + ','+ (obj.y *img_size[1]).toString();
             });
             $('#'+coordinate+'_xy').val(formattedPositions.join());
         }
@@ -85,6 +85,7 @@ $(function() {
         var notEnoughLandmarkFeatures = false;
         formData.forEach(function(el) {
             if (el.value == '') {
+                console.log(el);
                 isEmpty = true;
             }
             if (el.name.startsWith('landmark')) {

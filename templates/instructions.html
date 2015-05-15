@@ -2,30 +2,63 @@
 {% block body %}
 <div class="row">
     <h2>face bounding box</h2>
+    <p>Include the face up to above the eyebrows</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/face.png') }}"\>
 </div>
 <div class="row">
     <h2>left eye bounding box</h2>
+    <p>Include the whole eye excluding eyebrows. Note: left eye is right in the picture</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/leye.png') }}"\>
 </div>
 <div class="row">
     <h2>right eye bounding box</h2>
+    <p>Include the whole eye excluding eyebrows. Note: right eye is left in the picture</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/reye.png') }}"\>
 </div>
 <div class="row">
     <h2>mouth bounding box</h2>
+    <p>Include whole mouth</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/mouth.png') }}"\>
 </div>
 <div class="row">
     <h2>nose bounding box</h2>
+    <p>Include nose up to the middle of the nose.</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/nose.png') }}"\>
 </div>
 <div class="row">
     <h2>landmark features</h2>
+    <p>Total of 28 landmark features in the following order:</p>
+    <ul>
+        <li>Right eyebrow: 3 features</li>
+        <li>Left eyebrow: 3 features</li>
+        <li>Right eye: 6 features</li>
+        <li>Left eye: 6 features</li>
+        <li>Nose: 3 features</li>
+        <li>Mouth: 6 features</li>
+        <li>Tip of chin: 1 feature</li>
+    </ul>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/landmark.png') }}"\>
 </div>
 <div class="row">
     <h2>all faces bounding box</h2>
+    <p>The tightest bounding box that includes all faces in the image</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/allfaces.png') }}"\>
 </div>
+<div class="row">
+    <h2>orientation</h2>
+    <p>The orientation of the face. Please see below for examples.</p>
+    <div class="large-4 columns">
+        <p>Straight</p>
+        <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/straight.png') }}"\>
+    </div>
+    <div class="large-4 columns">
+        <p>Slight right</p>
+        <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/slight_right.png') }}"\>
+    </div>
+    <div class="large-4 columns">
+        <p>Full right</p>
+        <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/full_right.png') }}"\>
+    </div>
+</div>
+
 {% endblock %}
