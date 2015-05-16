@@ -9,6 +9,7 @@
             <img class="labeled_image" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
         </div>
         <button class="button" id="{{coordinate}}-clear">Clear</button>
+        <button class="button" id="{{coordinate}}-undo">Undo</button>
     {% else %}
     <h2>{{coordinate|replace("_", " ")}}</h2>
     <img class="labeled_image" id="{{coordinate}}" src="{{ url_for('static', filename='resized_images/') }}{{filename}}"\>
