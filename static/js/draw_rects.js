@@ -9,6 +9,13 @@ $(function() {
     var general_opts = {trueSize: img_size, keySupport:false, bgColor: 'white', bgOpacity: 0.3};
     var landmark_idx = 1;
 
+    if (typeof String.prototype.startsWith != 'function') {
+        // see below for better implementation!
+        String.prototype.startsWith = function (str){
+            return this.indexOf(str) === 0;
+        };
+    }
+
     _.each(_.keys(coordinates), function(coord) {
         if (coord.startsWith('landmark')) {
             $('#'+coord).annotatableImage(createBlackBox, {xPosition: 'middle', yPosition: 'middle'});
