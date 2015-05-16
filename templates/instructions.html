@@ -6,13 +6,13 @@
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/face.png') }}"\>
 </div>
 <div class="row">
-    <h2>left eye bounding box</h2>
-    <p>Include the whole eye excluding eyebrows. Note: left eye is right in the picture</p>
+    <h2>right eye bounding box</h2>
+    <p>Include the whole eye excluding eyebrows.</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/leye.png') }}"\>
 </div>
 <div class="row">
-    <h2>right eye bounding box</h2>
-    <p>Include the whole eye excluding eyebrows. Note: right eye is left in the picture</p>
+    <h2>left eye bounding box</h2>
+    <p>Include the whole eye excluding eyebrows.</p>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/reye.png') }}"\>
 </div>
 <div class="row">
@@ -27,16 +27,20 @@
 </div>
 <div class="row">
     <h2>landmark features</h2>
-    <p>Total of 28 landmark features in the following order:</p>
-    <ul>
-        <li>Right eyebrow: 3 features</li>
-        <li>Left eyebrow: 3 features</li>
-        <li>Right eye: 6 features</li>
-        <li>Left eye: 6 features</li>
-        <li>Nose: 3 features</li>
-        <li>Mouth: 6 features</li>
-        <li>Tip of chin: 1 feature</li>
-    </ul>
+    <p>Total of 35 landmark features in the following order:</p>
+    <ol class="two-columns">
+        <li>1-left_eyebrow_out</li><li>2-right_eyebrow_out</li><li>3-left_eyebrow_in</li>
+        <li>4-right_eyebrow_in</li><li>5-left_eyebrow_center_top</li><li>6-left_eyebrow_center_bottom</li>
+        <li>7-right_eyebrow_center_top</li><li>8-right_eyebrow_center_bottom</li><li>9-left_eye_out</li>
+        <li>10-right_eye_out</li><li>11-left_eye_in</li><li>12-right_eye_in</li><li>13-left_eye_center_top</li>
+        <li>14-left_eye_center_bottom</li><li>15-right_eye_center_top</li><li>16-right_eye_center_bottom</li>
+        <li>17-left_eye_pupil</li><li>18-right_eye_pupil</li><li>19-left_nose_out</li><li>20-right_nose_out</li>
+        <li>21-nose_center_top</li><li>22-nose_center_bottom</li><li>23-left_mouth_out</li><li>24-right_mouth_out</li>
+        <li>25-mouth_center_top_lip_top</li><li>26-mouth_center_top_lip_bottom</li>
+        <li>27-mouth_center_bottom_lip_top</li><li>28-mouth_center_bottom_lip_bottom</li><li>29-left_ear_top</li>
+        <li>30-right_ear_top</li><li>31-left_ear_bottom</li><li>32-right_ear_bottom</li><li>33-left_ear_canal</li>
+        <li>34-right_ear_canal</li><li>35-chin</li>
+    </ol>
     <img class="labeled_image" src="{{ url_for('static', filename='instruction_images/landmark.png') }}"\>
 </div>
 <div class="row">
