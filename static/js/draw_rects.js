@@ -7,7 +7,7 @@ $(function() {
     var nLandmarkFeatures = nLandmarkFeaturesStr != '' ? $.parseJSON(nLandmarkFeaturesStr) : null;
 
     var general_opts = {trueSize: img_size, keySupport:false, bgColor: 'white', bgOpacity: 0.3};
-    var landmark_idx = 0;
+    var landmark_idx = 1;
 
     _.each(_.keys(coordinates), function(coord) {
         if (coord.startsWith('landmark')) {
@@ -42,7 +42,8 @@ $(function() {
     function createBlackBox(coordinate) {
         var el = $(document.createElement('span'))
             .addClass('red dot note')
-            .attr('id', 'landmark-'+landmark_idx.toString());
+            .attr('id', 'landmark-'+landmark_idx.toString())
+            .text("\n"+landmark_idx);
         landmark_idx++;
         return el;
     }
@@ -60,6 +61,7 @@ $(function() {
         return function() {
             $('#'+coordinate+'_xy').val('');
             $('#'+coordinate+' span.note').remove();
+            landmark_idx = 1;
         }
     }
     function createUndoAnnotationCallback(coordinate) {
@@ -71,6 +73,7 @@ $(function() {
             var coordStr = $('#'+coordinate+'_xy').val();
             var newCoordStr = coordStr.split(',').slice(0,-2).join(',');
             $('#'+coordinate+'_xy').val(newCoordStr);
+            landmark_idx--;
         }
     }
 

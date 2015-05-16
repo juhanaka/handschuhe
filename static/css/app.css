@@ -9,9 +9,9 @@ div[id*="landmark"] img {
     cursor: crosshair;
 }
 span.red.dot {
-    width: 4px;
-    height: 4px;
-    background-color: #F00;
+    color: #FFF;
+    font-size: 7px;
+    pointer-events: none;
 }
 
 
